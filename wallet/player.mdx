@@ -1,0 +1,68 @@
+---
+title: "Get Player Session"
+api: "GET /session"
+description: "Opens player game session for provided player token and game UUID."
+---
+## API
+>`GET` /session
+<Tabs>
+    <Tab title="Headers">
+        <ParamField header="Authorization" type="string" required={true}>
+            Bearer authentication header of the form `Bearer token`, where `token` is your auth token.
+        </ParamField>
+    </Tab>
+    <Tab title="Query Parameters">
+        <ParamField header="playerToken" type="string" required={true}>
+            Unique token representing the player that was received with launch url.
+        </ParamField>
+        <ParamField header="gameUuid" type="string" required={true}>
+            Unique identifier of the game for which the request is being made.
+        </ParamField>
+    </Tab>
+    <Tab title="Response">
+        <ResponseField name="playerId" type="string" required>
+            Unique identifier of the player.
+        </ResponseField>
+        <ResponseField name="currency" type="string" required>
+            The currency code associated with the player's session, typically in ISO 4217 format.
+        </ResponseField>
+        <ResponseField name="sessionId" type="string" required>
+            Unique identifier of the player's session.
+        </ResponseField>
+    </Tab>
+    <Tab title="Error">
+        <Warning>If an error occurs while processing a request, the API must return a response with the following details: `HTTP Status Code: 400 Bad Request`</Warning>
+        <ResponseField name="error_code" type="string" required>
+            Error code describing the specific issue.
+        </ResponseField>
+        #### Possible Error Codes
+        - `INVALID_TOKEN`: The provided token is invalid or expired.
+        - `TECHNICAL_ERROR`: An unexpected error occurred.
+        - `NOT_AUTHORIZED`: The request is not authorized due to invalid Authorization header.
+    </Tab>
+</Tabs>
+<ResponseExample>
+    ```json Response 200
+    {
+        "playerId": "123e4567-e89b-12d3-a456-426614174000",
+        "currency":"USD",
+        "sessionId": "1c4f1d6d-5e37-4a8f-e642-def88a3b4749"
+    }
+    ```
+    ```json Error 400
+    {
+        "error": "INVALID_TOKEN"
+    }
+    ```
+</ResponseExample>
+## Responsibility of the wallet platform
+<Warning>
+    Assert that the incoming playerToken is valid, and return the playerID that is connected to the playerToken; this step is necessary in order to validate a player. The playerID that is returned must be unique per player, and identical each time an individual player authenticates.
+    The wallet platform also has a choice whether to return a sessionId value that is identical to the playerToken from the request, or a new operator generated identifier. RGS will use the returned sessionId value in all subsequent Get Balance, Credit, Debit and Rollback requests for this game session.
+</Warning>
+
+| Property | Description                           |
+| -------- | ------------------------------------- |
+| Name     | Full name of user             |
+| Age      | Reported age                          |
+| Joined   | Whether the user joined the community |

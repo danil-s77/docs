@@ -1,27 +1,23 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "title": "OpenAPI Wallet API",
+    "description": "",
     "license": {
       "name": "MIT"
     },
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
   "security": [
     {
       "bearerAuth": []
     }
   ],
   "paths": {
-    "/plants": {
+    "/balance": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
+
+        "description": "Retrieves the current balance of a player based on their player ID.",
         "parameters": [
           {
             "name": "limit",
