@@ -1,5 +1,48 @@
 ---
-title: "Get Games List"
-api: "Get /players/game/url"
-description: ""
+title: "Get Games"
+api: "Get /games"
+description: "Retrieves a list of games available from all software providers or a specific software provider."
 ---
+
+>`GET` /games
+
+### Request Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>softwareProvider</span>** | `string` `optional` | Filter games by a specific software provider. |
+
+---
+
+### Response Parameters
+
+Array of objects. Each object contains the following fields:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>uuid</span>** | `decimal` | Unique identifier of the game. |
+| **<span style={{color: "rgb(var(--primary)"}}>name</span>** | `decimal` | Name of the game. |
+| **<span style={{color: "rgb(var(--primary)"}}>softwareProvider</span>** | `decimal` | The software provider of the game. |
+| **<span style={{color: "rgb(var(--primary)"}}>gameCode</span>** | `decimal` | The unique game code. |
+
+<ResponseExample>
+    ```http Request
+    GET /games?softwareProvider=NOVOMATIC
+    ```
+    ```json Response 200
+    [
+        {
+            "uuid": "550e8400-e29b-41d4-a716-446655440000",
+            "name": "Book of Ra",
+            "softwareProvider": "NOVOMATIC",
+            "gameCode": "bookofra"
+        },
+        {
+            "uuid": "4b9b3f3d-5a17-4a2b-bc9c-b7c3b0cdd142",
+            "name": "Flaming Hot",
+            "softwareProvider": "EGT",
+            "gameCode": "flaminghot"
+        }
+    ]
+    ```
+</ResponseExample>

@@ -1,0 +1,29 @@
+---
+title: "RGS API Overview"
+description: "This document provides an overview of key RGS API endpoints used to launch games and retrieve supporting metadata such as software providers, game listings, and available languages. These endpoints help operators build a dynamic and engaging gaming experience."
+---
+
+## Overview
+
+The RGS API is designed to facilitate both game launching and the retrieval of essential metadata that supports a rich gaming environment. The endpoints fall into two main categories:
+
+### 1. Game Launch
+
+- **Endpoint:** `GET /games/launch`
+- **Purpose:**
+This endpoint initiates a gaming session by either creating a new player (if the provided player token does not exist) or opening a session for an existing player. Upon successful execution, it redirects the client to the appropriate game URL.
+- **Usage:**
+Use the game launch URL to start a game directly. This endpoint supports customization options such as specifying the device type, language, lobby URL, and currency, ensuring that the session is tailored to the player’s needs.
+
+### 2. Supporting Metadata Endpoints
+
+These endpoints provide valuable information that enhances the gaming experience by enabling better content presentation and localization:
+
+- **Get Software Providers (`GET /software-providers`):**
+Retrieves a list of all software providers integrated with the system. This is useful for filtering games and displaying provider options within your platform.
+
+- **Get Games (`GET /games`):**
+Returns a list of available games. You can filter this list by a specific software provider if desired. This endpoint is essential for populating your game library and offering players a wide selection of titles.
+
+- **Get Languages (`GET /languages`):**
+Provides a list of supported languages. This endpoint can be used to tailor the gaming interface and ensure that content is presented in the player’s preferred language, enhancing the overall user experience.

@@ -1,5 +1,41 @@
 ---
 title: "Get Languages"
-api: "Get /players/game/url"
-description: ""
+api: "Get /languages"
+description: "Retrieves a list of available languages for all software providers or a specific software provider."
 ---
+
+>`GET` /languages
+
+### Request Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>softwareProvider</span>** | `string` | Specify for which softare provider languages are retrieving |
+
+---
+
+### Response Parameters
+
+JSON Array of strings
+```json Example
+[
+  "en",
+  "fr",
+  "de",
+  "es"
+]
+```
+
+<ResponseExample>
+    ```http Request
+    GET /languages?softwareProvider=NOVOMATIC
+    ```
+    ```json Response 200
+    [
+        "en",
+        "fr",
+        "de",
+        "es"
+    ]
+    ```
+</ResponseExample>

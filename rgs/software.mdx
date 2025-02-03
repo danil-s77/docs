@@ -1,5 +1,37 @@
 ---
 title: "Get Software Providers"
-api: "Get /players/game/url"
-description: ""
+api: "Get /software-providers"
+description: "Retrieves a list of all available software providers."
 ---
+
+>`GET` /software-providers
+
+### Request Parameters
+
+None
+
+---
+
+### Response Parameters
+
+JSON Array of strings
+```json Example
+[
+  "NETENT",
+  "NOVOMATIC",
+  "EGT"
+]
+```
+
+<ResponseExample>
+    ```http Request
+    GET /software-providers
+    ```
+    ```json Response 200
+    [
+        "NETENT",
+        "NOVOMATIC",
+        "EGT"
+    ]
+    ```
+</ResponseExample>
