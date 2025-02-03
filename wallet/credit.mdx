@@ -56,7 +56,13 @@ description: "Credits the specified amount from the player's balance."
 <Expandable title="Possible Error Codes">
     | Error Code | Description |
     | --- | --- |
-    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_TOKEN</span>** | The provided token is invalid or expired. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_PLAYER_ID</span>** | The provided player ID is invalid or does not exist in the system. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_SESSION</span>** | The provided session ID is invalid or does not exist in the system. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_PLAYER_CURRENCY</span>** | The player's currency is invalid or mismatched. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_GAME</span>** | The specified game UUID is invalid or does not exist. |
+    | **<span style={{color: "rgb(var(--primary)"}}>ROUND_ALREADY_STARTED</span>** | The bet has already been initiated and cannot be repeated. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INSUFFICIENT_FUNDS</span>** | The player does not have enough funds to complete the action. |
+    | **<span style={{color: "rgb(var(--primary)"}}>BET_NOT_ALLOWED</span>** | Bet is not allowed for the specified conditions. |
     | **<span style={{color: "rgb(var(--primary)"}}>TECHNICAL_ERROR</span>** | An unexpected error occurred. |
     | **<span style={{color: "rgb(var(--primary)"}}>NOT_AUTHORIZED</span>** | The request is not authorized due to invalid Authorization header. |
 </Expandable>
