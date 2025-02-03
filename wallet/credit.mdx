@@ -71,8 +71,9 @@ description: "Credits the specified amount from the player's balance."
     Responsibility of the wallet platform
 </Warning>
 
-Assert that the incoming playerToken is valid, and return the playerID that is connected to the playerToken; this step is necessary in order to validate a player. The playerID that is returned must be unique per player, and identical each time an individual player authenticates.
-The wallet platform also has a choice whether to return a sessionId value that is identical to the playerToken from the request, or a new operator generated identifier. RGS will use the returned sessionId value in all subsequent Get Balance, Credit, Debit and Rollback requests for this game session.
+The wallet platform must verify that the incoming sessionId is valid and correctly associated with the provided playerId.
+
+In addition, it should persist `roundId`, `playerId`, `transactionId` and `amount` to ensure that future debit or rollback operations can be reliably processed, maintaining the integrity of the player's balance throughout the game session.
 
 <ResponseExample>
     ```http Request

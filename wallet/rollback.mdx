@@ -63,8 +63,11 @@ description: "Reverses a previously credited amount from the player's balance."
     Responsibility of the wallet platform
 </Warning>
 
-Assert that the incoming playerId, roundId and transactionId match up with the latest wager in the game round, that no result has been issued for the game round, and that the amount to roll back matches with the previously placed wager. Refuse the rollback if any of these assertions fail.
-A rollback must be accepted even if the game session has expired, since a rollback can be issued by the game server at a later time. We provide the game session for you as information in this call.
+The wallet platform must verify that the incoming `playerId`, `roundId`, `transactionId` and `amount` correspond to the latest wager placed in the game round. It must also ensure that no debit has been issued for the game round. If any of these assertions fail, the rollback request must be refused.
+
+If the specified transaction is not found or has already been rolled back, the wallet platform must return an `INVALID_TRANSACTION` error code. This error response will be interpreted as a successful rollback, ensuring that the rollback will not be sent repeatedly.
+
+For all other errors, the RGS platform will attempt to send the rollback again.
 
 <ResponseExample>
     ```http Request

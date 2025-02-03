@@ -48,9 +48,7 @@ sequenceDiagram
     Player->>+RGS: Execute game launch using player token
     RGS->>+Operator: Request player session using token
     Operator-->>-RGS: Return session ID
-    RGS->>+Operator: Request balance with session ID
-    Operator-->>-RGS: Return player's balance
-    RGS--)-Player: Redirect to game launch URL
+    RGS-->>-Player: Redirect to game launch URL
 ```
 
 ## Sequence Diagram for Game Round

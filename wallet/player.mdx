@@ -53,12 +53,15 @@ description: "Opens player game session for provided player token and game UUID.
     Responsibility of the wallet platform
 </Warning>
 
-Assert that the incoming playerToken is valid, and return the playerID that is connected to the playerToken; this step is necessary in order to validate a player. The playerID that is returned must be unique per player, and identical each time an individual player authenticates.
-The wallet platform also has a choice whether to return a sessionId value that is identical to the playerToken from the request, or a new operator generated identifier. RGS will use the returned sessionId value in all subsequent Get Balance, Credit, Debit and Rollback requests for this game session.
+Assert that the incoming playerToken is valid, and return the playerID that is connected to the playerToken.
+
+The playerID that is returned must be unique per player, and identical each time an individual player authenticates.
+
+RGS will use the returned sessionId value in all subsequent Get Balance, Credit, Debit and Rollback requests for this game session.
 
 <ResponseExample>
     ```http Request
-    GET /session?playerToken=123e4567-e89b-12d3-a456-426614174000& gameUuid=game-uuid-456
+    GET /session?playerToken=123e4567-e89b-12d3-a456-426614174000&gameUuid=game-uuid-456
     ```
     ```json Response 200
     {
