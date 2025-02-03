@@ -28,8 +28,7 @@
     {
       "group": "Get Started",
       "pages": [
-        "start/introduction",
-        "start/overview"
+        "start/introduction"
       ]
     },
     {
@@ -41,6 +40,16 @@
         "wallet/credit",
         "wallet/debit",
         "wallet/rollback"
+      ]
+    },
+    {
+      "group": "RGS API",
+      "pages": [
+        "rgs/overview",
+        "rgs/launch",
+        "rgs/software",
+        "rgs/games",
+        "rgs/languages"
       ]
     }
   ]

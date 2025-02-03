@@ -1,51 +1,91 @@
 ---
 title: "Credit"
-api: "GET /credit"
+api: "POST /credit"
 description: "Credits the specified amount from the player's balance."
 ---
 
-## API
->`GET` /session
+>`POST` /credit
 
 <Note>This operation is idempotent.</Note>
-<Tabs>
-    <Tab title="Headers">
-        <ParamField header="Authorization" type="string" required={true}>
-            Bearer authentication header of the form `Bearer token`, where `token` is your auth token.
-        </ParamField>
-    </Tab>
-    <Tab title="Query Parameters">
-        | Name | Type | Description |
-        | --- | --- | --- |
-        | **<span style={{color: "rgb(var(--primary)"}}>playerId</span>** | `string` | Unique identifier of the player. |
-        | **<span style={{color: "rgb(var(--primary)"}}>amount</span>** | `decimal` | Amount to credit. |
-        | **<span style={{color: "rgb(var(--primary)"}}>gameUuid</span>** | `string` | Unique identifier of the game. |
-        | **<span style={{color: "rgb(var(--primary)"}}>sessionId</span>** | `string` | Unique identifier of the player session. |
-        | **<span style={{color: "rgb(var(--primary)"}}>roundId</span>** | `string` | Unique identifier of the game round. |
-        | **<span style={{color: "rgb(var(--primary)"}}>transactionId</span>** | `string` | Unique identifier of the game round transaction. |
-        | **<span style={{color: "rgb(var(--primary)"}}>transactionType</span>** | `string` | Type of transaction, e.g., 'SPIN'. |
-        | **<span style={{color: "rgb(var(--primary)"}}>transactionTimestamp</span>** | `integer` | Timestamp of the transaction in milliseconds. |
-        | **<span style={{color: "rgb(var(--primary)"}}>roundStarted</span>** | `boolean` | Flag indicating start of the round. |
-        | **<span style={{color: "rgb(var(--primary)"}}>currency</span>** | `string` | Currency code of the player. |
-    </Tab>
-    <Tab title="Response">
-        | Name | Type | Description |
-        | --- | --- | --- |
-        | **<span style={{color: "rgb(var(--primary)"}}>balance</span>** | `decimal` | The updated balance of the player. |
-    </Tab>
-    <Tab title="Error">
-        <Warning>If an error occurs while processing a request, the API must return a response with `HTTP Status Code: 400 Bad Request`</Warning>
 
-        | Name | Type | Description |
+### Headers
+
+| Name | Type | Description |
         | --- | --- | --- |
-        | **<span style={{color: "rgb(var(--primary)"}}>error_code</span>** | `string` | Error code describing the specific issue. |
-        #### Possible Error Codes
-        - `INVALID_TOKEN`: The provided token is invalid or expired.
-        - `TECHNICAL_ERROR`: An unexpected error occurred.
-        - `NOT_AUTHORIZED`: The request is not authorized due to invalid Authorization header.
-    </Tab>
-</Tabs>
+| **<span style={{color: "rgb(var(--primary)"}}>Authorization</span>** | `string` | Bearer authentication header of the form `Bearer token`, where `token` is your auth token. |
+
+---
+
+### Request Parameters
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>playerId</span>** | `string` | Unique identifier of the player. |
+| **<span style={{color: "rgb(var(--primary)"}}>amount</span>** | `decimal` | Amount to credit. |
+| **<span style={{color: "rgb(var(--primary)"}}>gameUuid</span>** | `string` | Unique identifier of the game. |
+| **<span style={{color: "rgb(var(--primary)"}}>sessionId</span>** | `string` | Unique identifier of the player session. |
+| **<span style={{color: "rgb(var(--primary)"}}>roundId</span>** | `string` | Unique identifier of the game round. |
+| **<span style={{color: "rgb(var(--primary)"}}>transactionId</span>** | `string` | Unique identifier of the game round transaction. |
+| **<span style={{color: "rgb(var(--primary)"}}>transactionType</span>** | `string` | Type of transaction, e.g., 'SPIN'. |
+| **<span style={{color: "rgb(var(--primary)"}}>transactionTimestamp</span>** | `integer` | Timestamp of the transaction in milliseconds. |
+| **<span style={{color: "rgb(var(--primary)"}}>roundStarted</span>** | `boolean` | Flag indicating start of the round. |
+| **<span style={{color: "rgb(var(--primary)"}}>currency</span>** | `string` | Currency code of the player. |
+
+<Tip>Transaction Types: Enum representing the type of transaction.</Tip>
+- `SPIN`: A regular spin-based transaction.
+- `BONUS_PURCHASE`: A transaction where the player directly purchases a bonus feature within the game.
+
+---
+
+### Response Parameters
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>balance</span>** | `decimal` | The updated balance of the player. |
+
+---
+
+### Error
+
+<Note>If an error occurs while processing a request, the API must return a response with `HTTP Status Code: 400 Bad Request`</Note>
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>error_code</span>** | `string` | Error code describing the specific issue. |
+
+<Expandable title="Possible Error Codes">
+    | Error Code | Description |
+    | --- | --- |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_TOKEN</span>** | The provided token is invalid or expired. |
+    | **<span style={{color: "rgb(var(--primary)"}}>TECHNICAL_ERROR</span>** | An unexpected error occurred. |
+    | **<span style={{color: "rgb(var(--primary)"}}>NOT_AUTHORIZED</span>** | The request is not authorized due to invalid Authorization header. |
+</Expandable>
+---
+<Warning>
+    Responsibility of the wallet platform
+</Warning>
+
+Assert that the incoming playerToken is valid, and return the playerID that is connected to the playerToken; this step is necessary in order to validate a player. The playerID that is returned must be unique per player, and identical each time an individual player authenticates.
+The wallet platform also has a choice whether to return a sessionId value that is identical to the playerToken from the request, or a new operator generated identifier. RGS will use the returned sessionId value in all subsequent Get Balance, Credit, Debit and Rollback requests for this game session.
+
 <ResponseExample>
+    ```http Request
+    POST /credit
+    Content-Type: application/json
+    {
+        "playerId": "123e4567-e89b-12d3-a456-426614174000",
+        "amount": 20.00,
+        "gameUuid": "b23e45a7-9be8-d312-56a4-174000426614",
+        "sessionId": "1c4f1d6d-5e37-4a8f-e642-def88a3b4749",
+        "roundId": "f1d6d1c4-e375-e642-4a8f-3b474def88a9",
+        "transactionId": "d1c4f1d6-7e35-4e62-84af-ef83b474d8a9",
+        "transactionType": "SPIN",
+        "transactionTimestamp": 1632771475000,
+        "roundStarted": false,
+        "currency": "USD",
+    }
+
+    ```
     ```json Response 200
     {
         "balance": 100.00
@@ -57,10 +97,3 @@ description: "Credits the specified amount from the player's balance."
     }
     ```
 </ResponseExample>
-
-<Warning>
-    **Responsibility of the wallet platform**
-</Warning>
-
-Assert that the incoming playerToken is valid, and return the playerID that is connected to the playerToken; this step is necessary in order to validate a player. The playerID that is returned must be unique per player, and identical each time an individual player authenticates.
-The wallet platform also has a choice whether to return a sessionId value that is identical to the playerToken from the request, or a new operator generated identifier. RGS will use the returned sessionId value in all subsequent Get Balance, Credit, Debit and Rollback requests for this game session.

@@ -1,4 +1,94 @@
 ---
-title: 'Rollback'
-description: 'Preview changes locally to update your docs'
+title: "Rollback"
+api: "POST /rollback"
+description: "Reverses a previously credited amount from the player's balance."
 ---
+
+>`POST` /credit/rollback
+
+<Note>This operation is idempotent.</Note>
+
+### Headers
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>Authorization</span>** | `string` | Bearer authentication header of the form `Bearer token`, where `token` is your auth token. |
+
+---
+
+### Request Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>playerId</span>** | `string` | Unique identifier of the player. |
+| **<span style={{color: "rgb(var(--primary)"}}>amount</span>** | `decimal` | Amount to credit. |
+| **<span style={{color: "rgb(var(--primary)"}}>gameUuid</span>** | `string` | Unique identifier of the game. |
+| **<span style={{color: "rgb(var(--primary)"}}>sessionId</span>** | `string` | Unique identifier of the player session. |
+| **<span style={{color: "rgb(var(--primary)"}}>roundId</span>** | `string` | Unique identifier of the game round. |
+| **<span style={{color: "rgb(var(--primary)"}}>transactionId</span>** | `string` | Unique identifier of the game round transaction. |
+| **<span style={{color: "rgb(var(--primary)"}}>transactionTimestamp</span>** | `integer` | Timestamp of the transaction in milliseconds. |
+| **<span style={{color: "rgb(var(--primary)"}}>currency</span>** | `string` | Currency code of the player. |
+
+---
+
+### Response Parameters
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>balance</span>** | `decimal` | The updated balance of the player after the rollback. |
+
+---
+
+### Error
+
+<Note>If an error occurs while processing a request, the API must return a response with `HTTP Status Code: 400 Bad Request`</Note>
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>error_code</span>** | `string` | Error code describing the specific issue. |
+
+<Expandable title="Possible Error Codes">
+    | Error Code | Description |
+    | --- | --- |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_PLAYER_ID</span>** | The provided player ID is invalid or does not exist in the system. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_SESSION</span>** | The provided session ID is invalid or does not exist in the system. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_PLAYER_CURRENCY</span>** | The player's currency is invalid or mismatched. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_GAME</span>** | The specified game UUID is invalid or does not exist. |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_TRANSACTION</span>** | The transaction for rollback is invalid or cannot be processed. |
+    | **<span style={{color: "rgb(var(--primary)"}}>TECHNICAL_ERROR</span>** | An unexpected error occurred. |
+    | **<span style={{color: "rgb(var(--primary)"}}>NOT_AUTHORIZED</span>** | The request is not authorized due to invalid Authorization header. |
+</Expandable>
+---
+<Warning>
+    Responsibility of the wallet platform
+</Warning>
+
+Assert that the incoming playerId, roundId and transactionId match up with the latest wager in the game round, that no result has been issued for the game round, and that the amount to roll back matches with the previously placed wager. Refuse the rollback if any of these assertions fail.
+A rollback must be accepted even if the game session has expired, since a rollback can be issued by the game server at a later time. We provide the game session for you as information in this call.
+
+<ResponseExample>
+    ```http Request
+    POST /credit/rollback
+    Content-Type: application/json
+    {
+        "playerId": "123e4567-e89b-12d3-a456-426614174000",
+        "amount": 20.00,
+        "gameUuid": "b23e45a7-9be8-d312-56a4-174000426614",
+        "sessionId": "1c4f1d6d-5e37-4a8f-e642-def88a3b4749",
+        "roundId": "f1d6d1c4-e375-e642-4a8f-3b474def88a9",
+        "transactionId": "d1c4f1d6-7e35-4e62-84af-ef83b474d8a9",
+        "transactionTimestamp": 1632771475000,
+        "currency": "USD",
+    }
+    ```
+    ```json Response 200
+    {
+        "balance": 100.00
+    }
+    ```
+    ```json Error 400
+    {
+        "error_code": "INVALID_TRANSACTION"
+    }
+    ```
+</ResponseExample>

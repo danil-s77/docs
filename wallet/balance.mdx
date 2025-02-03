@@ -1,59 +1,73 @@
 ---
 title: "Get Balance"
-api: "GET /balance"
+api: "Get /balance"
 description: "Retrieves the current balance of a player based on their player ID."
 ---
-## API
+
 >`GET` /balance
-<Tabs>
-    <Tab title="Headers">
-        <ParamField header="Authorization" type="string" required={true}>
-            Bearer authentication header of the form `Bearer token`, where `token` is your auth token.
-        </ParamField>
-    </Tab>
-    <Tab title="Query Parameters">
-        <ParamField header="playerId" type="string" required={true}>
-            Unique identifier of the player whose balance is being retrieved.
-        </ParamField>
-        <ParamField header="sessionId" type="string" required={true}>
-            Unique identifier of the player's session.
-        </ParamField>
-        <ParamField header="currency" type="string" required={true}>
-            The currency code for the transaction, typically in ISO 4217 format.
-        </ParamField>
-        <ParamField header="gameUuid" type="string" required={true}>
-            Unique identifier of the game for which the request is being made.
-        </ParamField>
-    </Tab>
-    <Tab title="Response">
-        <ResponseField name="balance" type="decimal" required>
-            The current balance of the player.
-        </ResponseField>
-    </Tab>
-    <Tab title="Error">
-        <Warning>If an error occurs while processing a request, the API must return a response with the following details: `HTTP Status Code: 400 Bad Request`</Warning>
-        <ResponseField name="error_code" type="string" required>
-            Error code describing the specific issue.
-        </ResponseField>
-        #### Possible Error Codes
-        - `INVALID_TOKEN`: The provided token is invalid or expired.
-        - `TECHNICAL_ERROR`: An unexpected error occurred.
-        - `NOT_AUTHORIZED`: The request is not authorized due to invalid Authorization header.
-    </Tab>
-</Tabs>
+
+### Headers
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>Authorization</span>** | `string` | Bearer authentication header of the form `Bearer token`, where `token` is your auth token. |
+
+---
+
+### Request Parameters
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>playerId</span>** | `string` | Unique identifier of the player whose balance is being retrieved. |
+| **<span style={{color: "rgb(var(--primary)"}}>gameUuid</span>** | `string` | Unique identifier of the game for which the request is being made. |
+| **<span style={{color: "rgb(var(--primary)"}}>sessionId</span>** | `string` | Unique identifier of the player's session. |
+| **<span style={{color: "rgb(var(--primary)"}}>currency</span>** | `string` | The currency code for the transaction, typically in ISO 4217 format. |
+
+---
+
+### Response Parameters
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>balance</span>** | `decimal` | The current balance of the player. |
+
+---
+
+### Error
+
+<Note>If an error occurs while processing a request, the API must return a response with `HTTP Status Code: 400 Bad Request`</Note>
+
+| Name | Type | Description |
+        | --- | --- | --- |
+| **<span style={{color: "rgb(var(--primary)"}}>error_code</span>** | `string` | Error code describing the specific issue. |
+
+<Expandable title="Possible Error Codes">
+    | Error Code | Description |
+    | --- | --- |
+    | **<span style={{color: "rgb(var(--primary)"}}>INVALID_SESSION</span>** | The provided session ID is invalid or does not exist in the system. |
+    | **<span style={{color: "rgb(var(--primary)"}}>TECHNICAL_ERROR</span>** | An unexpected error occurred. |
+    | **<span style={{color: "rgb(var(--primary)"}}>NOT_AUTHORIZED</span>** | The request is not authorized due to invalid Authorization header. |
+</Expandable>
+---
+<Warning>
+    Responsibility of the wallet platform
+</Warning>
+
+Assert that the incoming sessionId is valid, and return the player’s current balance
+
 <ResponseExample>
-    ```json 200
+    ```http Request
+    GET /balance?playerId=123e4567-e89b-12d3-a456-426614174000
+    &sessionId=abc123-session-id&currency=USD&gameUuid=game-uuid-456
+    ```
+    ```json Response 200
     {
         "balance": 100.00
     }
     ```
-    ```json 400
+    ```json Error 400
     {
-        "error": "INVALID_TOKEN"
+        "error_code": "INVALID_SESSION"
     }
     ```
 </ResponseExample>
-## Responsibility of the wallet platform
-<Warning>
-    Assert that the incoming sessionId is valid, and return the player’s current balance.
-</Warning>
