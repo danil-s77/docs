@@ -1,10 +1,10 @@
 ---
 title: "Get Languages"
-api: "Get /languages"
+api: "Get /api/languages"
 description: "Retrieves a list of available languages for all software providers or a specific software provider."
 ---
 
->`GET` /languages
+>`GET` /api/languages
 
 ### Request Parameters
 
@@ -28,7 +28,7 @@ JSON Array of strings
 
 <ResponseExample>
     ```http Request
-    GET /languages?softwareProvider=NOVOMATIC
+    GET /api/languages?softwareProvider=NOVOMATIC
     ```
     ```json Response 200
     [

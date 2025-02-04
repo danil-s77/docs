@@ -1,32 +1,32 @@
 ---
 title: "Game Launch"
-api: "Get /games/launch"
+api: "Get /api/game/launch"
 description: "This endpoint creates a new player and opens a session for them in the gaming system.
 If a player with the specified player token does not exist, a new player will be created, and a session will be opened.
 If the player already exists, only a session will be opened."
 ---
 
->`GET` /games/launch
+> `GET` /api/game/launch
 
 ### Request Parameters
 
-| Name | Type | Description |
-| --- | --- | --- |
-| **<span style={{color: "rgb(var(--primary)"}}>operator_id</span>** | `string` | Operator id, provided by RGS |
-| **<span style={{color: "rgb(var(--primary)"}}>player_token</span>** | `string` |  Temporary token representing the player. |
-| **<span style={{color: "rgb(var(--primary)"}}>language</span>** | `string` `optional` | Language code, default is 'en'. |
-| **<span style={{color: "rgb(var(--primary)"}}>lobby_url</span>** | `string` `optional` |  URL to the player's lobby. |
-| **<span style={{color: "rgb(var(--primary)"}}>device_type</span>** | `string` | The type of device used for gaming `mobile` or `desktop`. |
-| **<span style={{color: "rgb(var(--primary)"}}>game_uuid</span>** | `string`| Unique identifier of the game. |
+| Name                                                                 | Type                | Description                                               |
+| -------------------------------------------------------------------- | ------------------- | --------------------------------------------------------- |
+| **<span style={{color: "rgb(var(--primary)"}}>operator\_id</span>**  | `string`            | Operator id, provided by RGS                              |
+| **<span style={{color: "rgb(var(--primary)"}}>player\_token</span>** | `string`            | Temporary token representing the player.                  |
+| **<span style={{color: "rgb(var(--primary)"}}>language</span>**      | `string` `optional` | Language code, default is 'en'.                           |
+| **<span style={{color: "rgb(var(--primary)"}}>lobby\_url</span>**    | `string` `optional` | URL to the player's lobby.                                |
+| **<span style={{color: "rgb(var(--primary)"}}>device\_type</span>**  | `string`            | The type of device used for gaming `MOBILE` or `DESKTOP`. |
+| **<span style={{color: "rgb(var(--primary)"}}>game\_uuid</span>**    | `string`            | Unique identifier of the game.                            |
 
----
+***
 
 ### Response
 
-HTTP Status Code 302 that redirects to the relevant game URL.
+The response has an HTTP status code 302, and it includes a Location header with the URL to which the client should be redirected. This redirection will be handled automatically by the browser.
 
 <ResponseExample>
-    ```http Request
-    GET /games/launch/?operator_id=your_operator_id&player_token=player123&currency=USD&game_uuid=550e8400-e29b-41d4-a716-446655440000
-    ```
+  ```http Request
+  GET /api/game/launch/?operator_id=your_operator_id&player_token=player123&currency=USD&game_uuid=550e8400-e29b-41d4-a716-446655440000
+  ```
 </ResponseExample>

@@ -1,10 +1,10 @@
 ---
 title: "Get Games"
-api: "Get /games"
+api: "Get /api/games"
 description: "Retrieves a list of games available from all software providers or a specific software provider."
 ---
 
->`GET` /games
+>`GET` /api/games
 
 ### Request Parameters
 
@@ -27,7 +27,7 @@ Array of objects. Each object contains the following fields:
 
 <ResponseExample>
     ```http Request
-    GET /games?softwareProvider=NOVOMATIC
+    GET /api/games?softwareProvider=NOVOMATIC
     ```
     ```json Response 200
     [
