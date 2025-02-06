@@ -1,10 +1,10 @@
 ---
-title: "Debit"
-api: "POST /debit"
-description: "Debits the specified amount to the player's balance."
+title: "Tournament Prize"
+api: "POST /tournament-prize"
+description: "Debits the specified tournament prize amount to the player's balance after tournament is finished."
 ---
 
-> `POST` /debit
+> `POST` /tournament-prize
 
 <Note />
 
@@ -22,12 +22,8 @@ description: "Debits the specified amount to the player's balance."
 | --------------------------------------------------------------------------- | --------- | ------------------------------------------------ |
 | **<span style={{color: "rgb(var(--primary)"}}>playerId</span>**             | `string`  | Unique identifier of the player.                 |
 | **<span style={{color: "rgb(var(--primary)"}}>amount</span>**               | `decimal` | Amount to debit.                                 |
-| **<span style={{color: "rgb(var(--primary)"}}>gameUuid</span>**             | `string`  | Unique identifier of the game.                   |
-| **<span style={{color: "rgb(var(--primary)"}}>sessionId</span>**            | `string`  | Unique identifier of the player session.         |
-| **<span style={{color: "rgb(var(--primary)"}}>roundId</span>**              | `string`  | Unique identifier of the game round.             |
 | **<span style={{color: "rgb(var(--primary)"}}>transactionId</span>**        | `string`  | Unique identifier of the game round transaction. |
 | **<span style={{color: "rgb(var(--primary)"}}>transactionTimestamp</span>** | `integer` | Timestamp of the transaction in milliseconds.    |
-| **<span style={{color: "rgb(var(--primary)"}}>roundFinished</span>**        | `boolean` | Flag indicating finish of the round.             |
 | **<span style={{color: "rgb(var(--primary)"}}>currency</span>**             | `string`  | Currency code of the player.                     |
 
 ***
@@ -52,43 +48,28 @@ description: "Debits the specified amount to the player's balance."
   | Error Code                                                                       | Description                                                         |
   | -------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
   | **<span style={{color: "rgb(var(--primary)"}}>INVALID\_PLAYER\_ID</span>**       | The provided player ID is invalid or does not exist in the system.  |
-  | **<span style={{color: "rgb(var(--primary)"}}>INVALID\_SESSION</span>**          | The provided session ID is invalid or does not exist in the system. |
   | **<span style={{color: "rgb(var(--primary)"}}>INVALID\_PLAYER\_CURRENCY</span>** | The player's currency is invalid or mismatched.                     |
-  | **<span style={{color: "rgb(var(--primary)"}}>INVALID\_GAME</span>**             | The specified game UUID is invalid or does not exist.               |
-  | **<span style={{color: "rgb(var(--primary)"}}>ROUND\_ALREADY\_FINISHED</span>**  | The game round has already ended.                                   |
   | **<span style={{color: "rgb(var(--primary)"}}>TECHNICAL\_ERROR</span>**          | An unexpected error occurred.                                       |
   | **<span style={{color: "rgb(var(--primary)"}}>NOT\_AUTHORIZED</span>**           | The request is not authorized due to invalid Authorization header.  |
 </Expandable>
 
 ***
 
-<Warning>
-  Responsibility of the wallet platform
-</Warning>
-
-The wallet platform must verify that the incoming playerId and roundId correspond to a previously placed wager. If this validation fails, the debit request must be refused.
-
-If the `roundFinished` has been marked as true, the platform must close the round, ensuring that no new Credit, Debit or Rollback operations can be performed on it.
-
 <ResponseExample>
   ```http Request
-  POST /debit
+  POST /tournament-prize
   Content-Type: application/json
   {
       "playerId": "123e4567-e89b-12d3-a456-426614174000",
-      "amount": 20.00,
-      "gameUuid": "b23e45a7-9be8-d312-56a4-174000426614",
-      "sessionId": "1c4f1d6d-5e37-4a8f-e642-def88a3b4749",
-      "roundId": "f1d6d1c4-e375-e642-4a8f-3b474def88a9",
+      "amount": 1500.00,
       "transactionId": "d1c4f1d6-7e35-4e62-84af-ef83b474d8a9",
-      "transactionTimestamp": 1632771475000,
-      "roundFinished": false
+      "transactionTimestamp": 1632771475000
   }
   ```
 
   ```json Response 200
   {
-      "balance": 100.00
+      "balance": 1600.00
   }
   ```
 
