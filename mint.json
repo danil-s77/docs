@@ -36,7 +36,8 @@
         "wallet/balance",
         "wallet/credit",
         "wallet/debit",
-        "wallet/rollback"
+        "wallet/rollback",
+        "wallet/tournament"
       ]
     },
     {
